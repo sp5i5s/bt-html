@@ -45,6 +45,8 @@ window.onload = function(){
             var rule_info = eval( 'this.config.rule[i].' + key);
             // 返回匹配的规则实体
             var rule_match = this.body.match(rule_info);
+            log(this.body);
+            log(rule_info)
             // 将Body拆分成Group Match
             rule_match.forEach(function(c,i){
               if(key === 'each'){
@@ -60,7 +62,9 @@ window.onload = function(){
       // clear 原始Dom
       fn.prototype.remove_dom = function(attr){
         var _dom = __.byId(attr.id);
-        W.removeChild(_dom);
+        if(_dom){
+          W.removeChild(_dom);
+        }
       };
       // 渲染json数据
       fn.prototype.render_json = function(attr,item_data){
@@ -72,7 +76,7 @@ window.onload = function(){
             var _info_data = eval('item_data.' + _c);
             _html = _html.replace(new RegExp(c,'gim'),_info_data);
           })
-          log(_html);
+          //log(_html);
         return _html;
         }
       };
@@ -82,11 +86,15 @@ window.onload = function(){
         var _parent_box = __.byId(attr.to);
         var _list = eval(attr.data);
         _list.forEach(function(c,i){
-          //this.render_html += attr.html;
           this.render_html += this.render_json(attr,c);
         }.bind(this));  
         _parent_box.innerHTML = this.render_html;
         this.remove_dom(this.attr);
+      };
+      // 动态更新数据
+      fn.prototype.update = function(){
+        log('update');
+        this.run();
       };
       return new fn();
     })();

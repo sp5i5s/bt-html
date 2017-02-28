@@ -3,7 +3,7 @@
   <head>
   <meta charset="utf-8">
     <style type="text/css">     
-      *{margin:0;padding:0;font-family: '微软雅黑';font-size: 20px;}
+      *{margin:0;padding:0;font-family: '微软雅黑';font-size: 14px;}
       .panel{width:50%;margin:auto;margin-top:1%;}
       .panel div li{list-style: none;margin-bottom: 20px;line-height: 1.5;border-bottom: 1px dashed  #ccc;}
       .panel .about h3{font-size: 50px;color:#999;}
@@ -14,20 +14,33 @@
                  {id : 2,name:"马泽",sex:21,date : '2017-10-11'},
                  {id : 3,name:"王恺",sex:22,date : '2017-10-12'},
                  {id : 4,name:"何野",sex:23,date : '2017-10-13'}];
+    var json2 = [{name:"PHP"},{name:"Java"}];
   </script>
   </head>
   <body>
   <div class="panel">
     <div id="box"></div>
     <div id="box2"></div>
-  </div> 
+  </div>
+
 <each id="list" to="box" data="json">
   <li>
   序号：{id}<br>
   导师：{name}<br>
-  性别：{sex}<br>
+  年龄：{sex}<br>
   日期：<a href="#{id}">{date}</a><br></li>
 </each>
+
+<each id="list2" to="box2" data="json2">
+  <li>{name}</li>
+</each>
+<input type="button" value="ADD" onclick="add();">
+<script type="text/javascript">
+  function add(){
+    json.push({id : 5,name:"张憨",sex:24,date : '2017-10-13'});
+    bt.update();
+  }
+</script>
 </body>
 <script type="text/javascript" src="__.js"></script>
 <script type="text/javascript" src="bt.js"></script>
