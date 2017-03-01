@@ -15,22 +15,26 @@
                  {id : 3,name:"王恺",sex:22,date : '2017-10-12'},
                  {id : 4,name:"何野",sex:23,date : '2017-10-13'}];
     var json2 = [{name:"PHP"},{name:"Java"}];
+    var json3 = [{name:"PHP2"},{name:"Java2"}];
   </script>
   </head>
   <body>
   <div class="panel">
     <div id="box"></div>
     <div id="box2"></div>
+    <div id="box3"></div>
   </div>
 
 <each id="list" to="box" data="json"><li>序号：{id}<br>导师：{name}<br>年龄：{sex}<br>日期：<a href="#{id}">{date}</a><br></li></each>
 <each id="list2" to="box2" data="json2"><li>{name}</li></each>
+<each id="list3" to="box3" data="json3"><li>{name}</li></each>
 
 
 <input type="button" value="ADD" onclick="add();">
 <script type="text/javascript">
   function add(){
     json.push({id : 5,name:"张憨",sex:24,date : '2017-10-13'});
+    json2.push({id : 5,name:".NET",sex:24,date : '2017-10-13'});
     bt.update();
   }
 </script>

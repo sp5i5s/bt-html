@@ -103,6 +103,3 @@ window.onload = function(){
     window.bt = bt;
   })(document.body || window.body)
 }
-
-// log('each-us.js'.match(/^(?!each)/));//null
-// log('l</each>bng-us.js'.match(/^(?!\<\/each\>).*/));//['lbng-us.js']
