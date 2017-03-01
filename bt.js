@@ -15,7 +15,7 @@ window.onload = function(){
       // 定义规则 
       fn.prototype.config = {
         rule : [
-          {each : /<each(.*)>([^</each>].*)([\w\W/m/r]*)<\/each>/g},
+              {each : /<each(.*)>(([\s\w\d\r\n\u4e00-\u9fa5])*)<\/each>/g}
         ],
       }
       // 初始化
@@ -45,14 +45,16 @@ window.onload = function(){
             var rule_info = eval( 'this.config.rule[i].' + key);
             // 返回匹配的规则实体
             var rule_match = this.body.match(rule_info);
-            log(this.body);
-            log(rule_info)
+            log(rule_match)
+            // log(this.body);
+            // log(rule_info)
             // 将Body拆分成Group Match
             rule_match.forEach(function(c,i){
               if(key === 'each'){
                 // 取Math单个Data
-                var _exp_each_match = c.match(/<each(.*)>([\w\W]*)<\/each>/);
+                var _exp_each_match = c.match(/<each([^\>]+)>(.*)<\/each>/);
                 this.set_attr(_exp_each_match);
+                //log(this.attr);
                 this.render(this.attr);
               }
             }.bind(this))
@@ -101,3 +103,6 @@ window.onload = function(){
     window.bt = bt;
   })(document.body || window.body)
 }
+
+// log('each-us.js'.match(/^(?!each)/));//null
+// log('l</each>bng-us.js'.match(/^(?!\<\/each\>).*/));//['lbng-us.js']
