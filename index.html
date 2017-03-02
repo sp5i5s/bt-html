@@ -25,8 +25,16 @@
     <div id="box3"></div>
   </div>
 
-<each id="list" to="box" data="json"><li>序号：{id}<br>导师：{name}<br>年龄：{sex}<br>日期：<a href="#{id}">{date}</a><br></li></each>
-<each id="list2" to="box2" data="json2"><li>{name}</li></each>
+<each id="list" to="box" data="json">
+  <li>序号：{id}
+  <br>导师：{name}
+  <br>年龄：{sex}
+  <br>日期：<a href="#{id}">{date}</a>
+  <br>
+  </li>
+</each>
+<each id="list2" to="box2" data="json2">
+<li>{name}</li></each>
 <each id="list3" to="box3" data="json3"><li>{name}</li></each>
 
 
