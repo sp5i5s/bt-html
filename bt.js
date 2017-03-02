@@ -8,7 +8,6 @@ window.onload = function(){
   
   (function(W){
     var bt = (function(){
-
       var fn = function(){
         return fn.prototype.init();
       };
@@ -81,21 +80,36 @@ window.onload = function(){
       // 页面渲染
       fn.prototype.render = function(attr){
         this.render_html = '';
-        var _parent_box = __.byId(attr.to);
+        var _parent_box = __.byId(attr.id).parentNode;
+        //log(_parent_box.parentNode);
         var _list = eval(attr.data);
         _list.forEach(function(c,i){
           this.render_html += this.render_json(attr,c);
         }.bind(this));  
         _parent_box.innerHTML = this.render_html;
-        this.remove_dom(this.attr);
+        //this.remove_dom(this.attr);
       };
       // 动态更新数据
-      fn.prototype.update = function(){
-        log('update');
-        this.run();
+      fn.prototype.update = function(data){
+        //log('init')
+        //log(data.toString());
+        //this.run();
+        log(arguments[0]);
       };
       return new fn();
     })();
     window.bt = bt;
   })(document.body || window.body)
+}
+
+// listen array push
+Array.prototype._push  = Array.prototype.push;
+Array.prototype.push = function(v){
+  this._push(v);
+  if(typeof this.pushListener == 'function')this.pushListener.call(this,v);
+}
+json.pushListener = function(v){
+    log('在数组a中添加新元素'+v);
+    log(v);
+    log(this)
 }

@@ -20,30 +20,29 @@
   </head>
   <body>
   <div class="panel">
-    <div id="box"></div>
-    <div id="box2"></div>
-    <div id="box3"></div>
+    <div id="box">
+      <each id="list" data="json">
+        <li>序号：{id}
+        <br>导师：{name}
+        <br>年龄：{sex}
+        <br>日期：<a href="#{id}">{date}</a>
+        <br>
+        </li>
+      </each>
+    </div>
+    <div id="box2">
+      <each id="list2" data="json2"><li>{name}</li></each>
+    </div>
+    <div id="box3">
+      <each id="list3" data="json3"><li>{name}</li></each>
+    </div>
   </div>
-
-<each id="list" to="box" data="json">
-  <li>序号：{id}
-  <br>导师：{name}
-  <br>年龄：{sex}
-  <br>日期：<a href="#{id}">{date}</a>
-  <br>
-  </li>
-</each>
-<each id="list2" to="box2" data="json2">
-<li>{name}</li></each>
-<each id="list3" to="box3" data="json3"><li>{name}</li></each>
-
-
 <input type="button" value="ADD" onclick="add();">
 <script type="text/javascript">
   function add(){
     json.push({id : 5,name:"张憨",sex:24,date : '2017-10-13'});
-    json2.push({id : 5,name:".NET",sex:24,date : '2017-10-13'});
-    bt.update();
+    //json2.push({id : 5,name:".NET",sex:24,date : '2017-10-13'});
+    bt.update(json);
   }
 </script>
 </body>
