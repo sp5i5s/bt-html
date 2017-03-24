@@ -91,10 +91,12 @@ window.onload = function(){
       };
       // 动态更新数据
       fn.prototype.update = function(data){
-        //log('init')
+        log('update');
+        log(__.byId('list'));
+        //log(json);
         //log(data.toString());
         //this.run();
-        log(arguments[0]);
+        //log(arguments[0]);
       };
       return new fn();
     })();
@@ -109,7 +111,7 @@ Array.prototype.push = function(v){
   if(typeof this.pushListener == 'function')this.pushListener.call(this,v);
 }
 json.pushListener = function(v){
-    log('在数组a中添加新元素'+v);
-    log(v);
-    log(this)
+    // log('在数组a中添加新元素'+v);
+    // log(v);
+    // log(this)
 }

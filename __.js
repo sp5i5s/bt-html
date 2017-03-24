@@ -80,6 +80,10 @@ Array.prototype.filter_attr = function(){
       byId : function(_id){
         return document.getElementById(_id);
       },
+      // add Event
+      event : function(_event_type,fn){
+        
+      },
       create_dom : function(_id){
         
       }
