@@ -51,7 +51,6 @@ window.onload = function(){
         var _json = eval(last_node.data);
         _json.pushListener = function(){
           this.last_update_id = last_node.id;
-          //log(this.last_update_id)
         }.bind(this);
         return last_node;
       };
@@ -77,11 +76,13 @@ window.onload = function(){
         }.bind(this))
       };
       // clear 原始Dom
-      fn.prototype.remove_dom = function(attr){
-        var _dom = __.byId(attr.id);
-        if(_dom){
-          W.removeChild(_dom);
-        }
+      fn.prototype.remove_dom = function(){
+        this.attr.forEach(function(c,i){
+          var _dom = __.byId(c.id);
+          if(_dom){
+            W.removeChild(_dom);
+          }
+        })
       };
       // 渲染json数据
       fn.prototype.render_json = function(attr,item_data){
@@ -108,7 +109,7 @@ window.onload = function(){
           this.render_html += this.render_json(attr,c);
         }.bind(this));  
         _parent_box.innerHTML = this.render_html;
-        this.remove_dom(this.attr);
+        this.remove_dom();
       };
       // 动态更新数据
       fn.prototype.update = function(){
