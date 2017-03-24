@@ -4,8 +4,7 @@
  * @desc JSON数据模型DMO动态渲染,支持List
  * @return   {[type]}
  */
-window.onload = function(){
-  
+window.onload = function(){ 
   (function(W){
     var bt = (function(){
       var fn = function(){
@@ -19,25 +18,46 @@ window.onload = function(){
       }
       // 初始化
       fn.prototype.init = function(){
+        //log('init');
         this.config.body = W.innerHTML.trim();
         this.body = this.config.body;
         this.attr = [];
         this.render_html = '';
+        this.last_update_id = null;
         this.run();
         return this;
       };
       // attr初始
       fn.prototype.set_attr = function(value){
+        //log('set attr');
+        var self = this;
+        // 将Each的DOM分批打入临时数组队列
         var _attrs = value[1].split(/\s/).filter_attr();
         _attrs.forEach(function(c,i){
           var _attr_value = c.split('=');
-          this.attr[ _attr_value[0] ] =  _attr_value[1];
+          if(_attr_value[0] == 'id'){
+            self.attr.push({ id : _attr_value[1] });
+            return false;
+          }
+        });
+        var last_node = this.attr[ this.attr.length - 1];
+        // 以each以ID为索引，将关联数据以次注入
+        _attrs.forEach(function(c,i){
+          var _attr_value = c.split('=');
+          eval('last_node.' + _attr_value[0] + '=_attr_value[1]');
         }.bind(this));
-        this.attr['html'] = value[2].trim();
-        //log(this.attr)
+        last_node.html = value[2].trim();
+        
+        var _json = eval(last_node.data);
+        _json.pushListener = function(){
+          this.last_update_id = last_node.id;
+          //log(this.last_update_id)
+        }.bind(this);
+        return last_node;
       };
       // start
       fn.prototype.run = function(){
+        //log('run');
         this.config.rule.forEach(function(c,i){
           for(var key in c){ 
             // 单个规则实体
@@ -49,8 +69,8 @@ window.onload = function(){
               if(key === 'each'){
                 // 取Math单个Data
                 var _exp_each_match = c.match(/<each([^/>]*)>([\s\S]*?)<\/each>/);
-                this.set_attr(_exp_each_match);
-                this.render(this.attr);
+                var attr = this.set_attr(_exp_each_match);
+                this.render(attr);
               }
             }.bind(this))
           }
@@ -79,24 +99,28 @@ window.onload = function(){
       };
       // 页面渲染
       fn.prototype.render = function(attr){
+        //log('render');
         this.render_html = '';
-        var _parent_box = __.byId(attr.id).parentNode;
-        //log(_parent_box.parentNode);
+        var _parent_box = __.byId(attr.to);
         var _list = eval(attr.data);
+        //log(attr);
         _list.forEach(function(c,i){
           this.render_html += this.render_json(attr,c);
         }.bind(this));  
         _parent_box.innerHTML = this.render_html;
-        //this.remove_dom(this.attr);
+        this.remove_dom(this.attr);
       };
       // 动态更新数据
-      fn.prototype.update = function(data){
-        log('update');
-        log(__.byId('list'));
-        //log(json);
-        //log(data.toString());
-        //this.run();
-        //log(arguments[0]);
+      fn.prototype.update = function(){
+        //log('data update');
+        //this.render({data:"json2",html:"<li>{name}</li>",id:"list2",to:"box2"});
+        log(this.attr)
+        this.attr.forEach(function(c,i){
+          if(c.id == this.last_update_id){
+            this.render(c);
+            return;
+          }
+        }.bind(this))
       };
       return new fn();
     })();
@@ -109,9 +133,4 @@ Array.prototype._push  = Array.prototype.push;
 Array.prototype.push = function(v){
   this._push(v);
   if(typeof this.pushListener == 'function')this.pushListener.call(this,v);
-}
-json.pushListener = function(v){
-    // log('在数组a中添加新元素'+v);
-    // log(v);
-    // log(this)
 }
